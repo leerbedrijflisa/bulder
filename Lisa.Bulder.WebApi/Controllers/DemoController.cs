@@ -7,7 +7,11 @@ namespace Lisa.Bulder.WebClient.Controllers
     {
         public IActionResult Get()
         {
-            var person = new { FirstName = "Mike", LastName = "Faro" };
+            var person = new object[]
+            {
+                new { FirstName = "Mike", LastName = "Faro" },
+                new { FirstName = "Rick", LastName = "Jelier" }
+            };
             return new ObjectResult(person);
         }
     }

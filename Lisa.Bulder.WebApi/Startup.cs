@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Cors.Core;
 using Microsoft.Framework.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 
 namespace Lisa.Bulder.WebApi
 {
@@ -7,11 +9,21 @@ namespace Lisa.Bulder.WebApi
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
+            var policy = new CorsPolicy();
+            policy.Origins.Add("*");
+            policy.Methods.Add("*");
+            policy.Headers.Add("*");
+            services.ConfigureCors(config => config.AddPolicy("allowAll", policy));
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors("allowAll");
             app.UseMvc();
         }
     }

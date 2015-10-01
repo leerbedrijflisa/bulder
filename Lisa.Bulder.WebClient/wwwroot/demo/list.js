@@ -1,8 +1,13 @@
-﻿export class List {
+﻿import {HttpClient} from "aurelia-http-client";
+
+export class List {
     activate() {
-        this.persons = [
-            { firstName: "Max", lastName: "Verboom" },
-            { firstName: "Patrick", lastName: "Huiskens" }
-        ];
+        var webapi = new HttpClient().configure(config => {
+            config.withBaseUrl("http://localhost:13693");
+        });
+
+        webapi.get("/").then(response => {
+            this.persons = response.content;
+        });
     }
 }

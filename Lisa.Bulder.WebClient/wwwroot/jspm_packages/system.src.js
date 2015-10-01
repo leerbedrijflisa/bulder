@@ -1,5 +1,5 @@
 /*
- * SystemJS v0.19.1
+ * SystemJS v0.19.3
  */
 (function() {
 function bootstrap() {(function(__global) {
@@ -958,7 +958,7 @@ function SystemLoader() {
 // NB no specification provided for System.paths, used ideas discussed in https://github.com/jorendorff/js-loaders/issues/25
 function applyPaths(paths, name) {
   // most specific (most number of slashes in path) match wins
-  var pathMatch = '', wildcard, maxSlashCount = 0;
+  var pathMatch = '', wildcard, maxWildcardPrefixLen = 0;
 
   // check to see if we have a paths entry
   for (var p in paths) {
@@ -975,11 +975,11 @@ function applyPaths(paths, name) {
     }
     // wildcard path match
     else {
-      var slashCount = p.split('/').length;
-      if (slashCount >= maxSlashCount &&
+      var wildcardPrefixLen = pathParts[0].length;
+      if (wildcardPrefixLen >= maxWildcardPrefixLen &&
           name.substr(0, pathParts[0].length) == pathParts[0] &&
           name.substr(name.length - pathParts[1].length) == pathParts[1]) {
-            maxSlashCount = slashCount;
+            maxWildcardPrefixLen = wildcardPrefixLen;
             pathMatch = p;
             wildcard = name.substr(pathParts[0].length, name.length - pathParts[1].length - pathParts[0].length);
           }
@@ -2353,15 +2353,15 @@ hook('normalize', function(normalize) {
   // IE interactive-only part
   // we store loading scripts array as { script: <script>, load: {...} }
   var interactiveLoadingScripts = [];
-  var interactiveScript = null;
+  var interactiveScript;
   function getInteractiveScriptLoad() {
-    if (interactiveScript && interactiveScript.readyState === 'interactive')
-      return interactiveScript;
+    if (interactiveScript && interactiveScript.script.readyState === 'interactive')
+      return interactiveScript.load;
 
     for (var i = 0; i < interactiveLoadingScripts.length; i++)
       if (interactiveLoadingScripts[i].script.readyState == 'interactive') {
-        interactiveScript = interactiveLoadingScripts[i].script;
-        return interactiveLoadingScripts[i].load;
+        interactiveScript = interactiveLoadingScripts[i];
+        return interactiveScript.load;
       }
   }
   
@@ -2370,6 +2370,7 @@ hook('normalize', function(normalize) {
   // we then run the reduceRegister_ collection function either immediately
   // if we are in IE and know the currently executing script (interactive)
   // or later if we need to wait for the synchronous load callback to know the script
+  var loadingCnt = 0;
   var registerQueue = [];
   hook('pushRegister_', function(pushRegister) {
     return function(register) {
@@ -2388,8 +2389,15 @@ hook('normalize', function(normalize) {
 
       // otherwise, add to our execution queue
       // to call reduceRegister on sync script load event
-      else
+      else if (loadingCnt)
         registerQueue.push(register);
+
+      // if we're not currently loading anything though
+      // then do the reduction against a null load
+      // (out of band named define or named register)
+      // note even in non-script environments, this catch is used
+      else
+        this.reduceRegister_(null, register);
 
       return true;
     };
@@ -2449,6 +2457,8 @@ hook('normalize', function(normalize) {
           s.addEventListener('error', error, false);
         }
 
+        loadingCnt++;
+
         curSystem = __global.System;
 
         s.src = load.address;
@@ -2458,18 +2468,17 @@ hook('normalize', function(normalize) {
           if (s.readyState && s.readyState != 'loaded' && s.readyState != 'complete')
             return;
 
+          loadingCnt--;
+
           // complete call is sync on execution finish
           // (in ie already done reductions)
-          if (!interactiveScript && !registerQueue.length) {
+          if (!load.metadata.entry && !registerQueue.length) {
             loader.reduceRegister_(load);
           }
           else if (!ieEvents) {
             for (var i = 0; i < registerQueue.length; i++)
               loader.reduceRegister_(load, registerQueue[i]);
             registerQueue = [];
-          }
-          else {
-            interactiveScript = null;
           }
 
           cleanup();
@@ -2492,8 +2501,11 @@ hook('normalize', function(normalize) {
           if (s.detachEvent) {
             s.detachEvent('onreadystatechange', complete);
             for (var i = 0; i < interactiveLoadingScripts.length; i++)
-              if (interactiveLoadingScripts[i].script == s)
+              if (interactiveLoadingScripts[i].script == s) {
+                if (interactiveScript.script == s)
+                  interactiveScript = null;
                 interactiveLoadingScripts.splice(i, 1);
+              }
           }
           else {
             s.removeEventListener('load', complete, false);
@@ -2641,21 +2653,25 @@ function createEntry() {
         return;
 
       var entry = register.entry;
+      var curMeta = load && load.metadata;
 
       // named register
       if (entry.name) {
         if (!(entry.name in this.defined))
           this.defined[entry.name] = entry;
 
-        load.metadata.bundle = true;
+        if (curMeta)
+          curMeta.bundle = true;
       }
       // anonymous register
-      if (!entry.name || entry.name == load.name) {
-        if (load.metadata.entry)
+      if (!entry.name || load && entry.name == load.name) {
+        if (!curMeta)
+          throw new TypeError('Unexpected anonymous System.register call.');
+        if (curMeta.entry)
           throw new Error('Multiple anonymous System.register calls in module ' + load.name + '. If loading a bundle, ensure all the System.register calls are named.');
-        if (!load.metadata.format)
-          load.metadata.format = 'register';
-        load.metadata.entry = entry;
+        if (!curMeta.format)
+          curMeta.format = 'register';
+        curMeta.entry = entry;
       }
     };
   });
@@ -3676,13 +3692,17 @@ hookConstructor(function(constructor) {
         if (!register || !register.amd)
           return reduceRegister.call(this, load, register);
 
-        var curMeta = load.metadata;
+        var curMeta = load && load.metadata;
         var entry = register.entry;
 
-        curMeta.format = 'amd';
+        if (curMeta)
+          curMeta.format = 'amd';
 
         // anonymous define
         if (!entry.name) {
+          if (!curMeta)
+            throw new TypeError('Unexpected anonymous AMD define.');
+
           // already defined anonymously -> throw
           if (curMeta.entry)
             throw new TypeError('Multiple defines for anonymous module ' + load.name);
@@ -3698,16 +3718,19 @@ hookConstructor(function(constructor) {
           // still loading anonymously
           // because it is done widely enough to be useful
           // as soon as there is more than one define, this gets removed though
-          if (!curMeta.entry && !curMeta.bundle)
-            curMeta.entry = entry;
-          else
-            curMeta.entry = undefined;
+          if (curMeta) {
+            if (!curMeta.entry && !curMeta.bundle)
+              curMeta.entry = entry;
+            else
+              curMeta.entry = undefined;
 
-          // note this is now a bundle
-          curMeta.bundle = true;
+            // note this is now a bundle
+            curMeta.bundle = true;
+          }
 
           // define the module through the register registry
-          this.defined[entry.name] = entry;
+          if (!(entry.name in this.defined))
+            this.defined[entry.name] = entry;
         }
       };
     });
@@ -4451,7 +4474,7 @@ function getBundleFor(loader, name) {
 })();
   
 System = new SystemJSLoader();
-System.version = '0.19.1 Standard';
+System.version = '0.19.3 Standard';
   // -- exporting --
 
   if (typeof exports === 'object')

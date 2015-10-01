@@ -3,7 +3,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System.Threading.Tasks;
 
-namespace Lisa.Bulder.WebClient.Controllers
+namespace Lisa.Bulder.WebClient
 {
     [Route("")]
     public class DemoController : Controller
@@ -17,7 +17,7 @@ namespace Lisa.Bulder.WebClient.Controllers
 
             var query = new TableQuery<Person>();
             var segment = await table.ExecuteQuerySegmentedAsync(query, null);
-            
+
             return new ObjectResult(segment.Results);
         }
     }

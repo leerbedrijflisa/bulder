@@ -13,6 +13,7 @@ namespace Lisa.Bulder.WebApi
             var account = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
             var client = account.CreateCloudTableClient();
             _messages = client.GetTableReference("messages");
+            _users = client.GetTableReference("users");
         }
 
         public async Task<IEnumerable<MessageEntity>> FetchMessages()
@@ -31,6 +32,23 @@ namespace Lisa.Bulder.WebApi
             return (MessageEntity) result.Result;
         }
 
+        public async Task<IEnumerable<UserEntity>> FetchUsers()
+        {
+            var query = new TableQuery<UserEntity>();
+            var segment = await _users.ExecuteQuerySegmentedAsync(query, null);
+            return segment;
+        }
+
+        public async Task<UserEntity> CreateUser(UserEntity user)
+        {
+            user.PartitionKey = string.Empty;
+            user.RowKey = Guid.NewGuid().ToString();
+            var operation = TableOperation.Insert(user);
+            var result = await _users.ExecuteAsync(operation);
+            return (UserEntity)result.Result;
+        }
+
         private CloudTable _messages;
+        private CloudTable _users;
     }
 }

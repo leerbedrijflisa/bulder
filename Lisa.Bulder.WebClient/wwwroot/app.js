@@ -1,8 +1,8 @@
 ﻿export class App {
     configureRouter(config, router) {
         config.map([
-            { route: "", moduleId: "demo/list" },
-            { route: "messages/create", moduleId: "messages/create" }
+            { route: "messages/create", moduleId: "messages/create" },
+            {route: "users/create", moduleId: "users/create" }
         ])
     }
 }   

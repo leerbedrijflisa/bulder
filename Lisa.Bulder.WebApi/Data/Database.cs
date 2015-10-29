@@ -14,6 +14,7 @@ namespace Lisa.Bulder.WebApi
             var client = account.CreateCloudTableClient();
             _messages = client.GetTableReference("messages");
             _users = client.GetTableReference("users");
+            _channels = client.GetTableReference("channels");
         }
 
         public async Task<IEnumerable<MessageEntity>> FetchMessages()
@@ -48,7 +49,24 @@ namespace Lisa.Bulder.WebApi
             return (UserEntity)result.Result;
         }
 
+        public async Task<IEnumerable<ChannelEntity>> FetchChannels()
+        {
+            var query = new TableQuery<ChannelEntity>();
+            var segment = await _channels.ExecuteQuerySegmentedAsync(query, null);
+            return segment;
+        }
+
+        public async Task<ChannelEntity> CreateChannel(ChannelEntity channel)
+        {
+            channel.PartitionKey = string.Empty;
+            channel.RowKey = Guid.NewGuid().ToString();
+            var operation = TableOperation.Insert(channel);
+            var result = await _channels.ExecuteAsync(operation);
+            return (ChannelEntity)result.Result;
+        }
+
         private CloudTable _messages;
         private CloudTable _users;
+        private CloudTable _channels;
     }
 }

@@ -3,17 +3,18 @@
     "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.AspNet.Mvc.Abstractions": "6.0.0-beta7",
-    "Microsoft.AspNet.Mvc.Core": "6.0.0-beta7",
-    "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-beta7",
-    "Microsoft.AspNet.Server.IIS": "1.0.0-beta7",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta7",
-    "Microsoft.AspNet.StaticFiles": "1.0.0-beta7"
+    "Microsoft.AspNet.Mvc.Abstractions": "6.0.0-beta8",
+    "Microsoft.AspNet.Mvc.Core": "6.0.0-beta8",
+    "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-beta8",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-beta8"
   },
 
-    "commands": {
-        "serve": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
-    },
+  "commands": {
+    "serve": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
+    "web": "Microsoft.AspNet.Server.Kestrel"
+  },
 
     "frameworks": {
         "dnx451": { },

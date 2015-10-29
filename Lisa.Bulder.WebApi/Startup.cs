@@ -18,7 +18,7 @@ namespace Lisa.Bulder.WebApi
             policy.Origins.Add("*");
             policy.Methods.Add("*");
             policy.Headers.Add("*");
-            services.ConfigureCors(config => config.AddPolicy("allowAll", policy));
+            services.AddCors(config => config.AddPolicy("allowAll", policy));
         }
 
         public void Configure(IApplicationBuilder app)

@@ -3,7 +3,7 @@
 export class Create {
     submit() {
         var channel = {
-            channel: this.channel,
+            name: this.name,
         };
 
         var webapi = new HttpClient().configure(config => {

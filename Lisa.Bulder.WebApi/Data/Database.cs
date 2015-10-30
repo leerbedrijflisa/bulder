@@ -58,7 +58,7 @@ namespace Lisa.Bulder.WebApi
 
         public async Task<ChannelEntity> CreateChannel(ChannelEntity channel)
         {
-            channel.PartitionKey = string.Empty;
+            channel.PartitionKey = channel.PartitionKey;
             channel.RowKey = Guid.NewGuid().ToString();
             var operation = TableOperation.Insert(channel);
             var result = await _channels.ExecuteAsync(operation);

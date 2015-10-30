@@ -3,7 +3,7 @@
 export class Create {
     submit() {
         var channel = {
-            name: this.name,
+            PartitionKey: this.Name,
         };
 
         var webapi = new HttpClient().configure(config => {

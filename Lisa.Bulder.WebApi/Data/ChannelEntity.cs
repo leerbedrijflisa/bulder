@@ -4,6 +4,7 @@ namespace Lisa.Bulder.WebApi
 {
     public class ChannelEntity : TableEntity
     {
-        public string Name { get; set; }
+        public string Administrators { get; set; }
+        public string Authors { get; set; }
     }
 }

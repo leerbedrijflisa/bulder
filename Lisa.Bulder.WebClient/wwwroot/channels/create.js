@@ -4,6 +4,7 @@ export class Create {
     submit() {
         var channel = {
             PartitionKey: this.Name,
+            Administrators: this.Administrators
         };
 
         var webapi = new HttpClient().configure(config => {

@@ -1,0 +1,12 @@
+﻿<template>
+    <table>
+        <tr>
+            <th>Channel name</th>
+            <th>Administrators</th>
+        </tr>
+        <tr repeat.for="channel of channels">
+            <td>${channel.partitionKey}</td>
+            <td>${channel.administrators}</td>
+        </tr>
+    </table>
+</template>

@@ -5,7 +5,7 @@
         <div>
             <select value.bind="selectChannel">
                 <option>Select a channel</option>
-                <option repeat.for="channel of channels" value="${channel.partitionKey}">${channel.partitionKey}</option>
+                <option repeat.for="channel of channels" value.bind="channel">${channel}</option>
             </select>
             
              <br />

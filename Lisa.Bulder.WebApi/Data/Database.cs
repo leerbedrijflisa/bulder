@@ -26,7 +26,7 @@ namespace Lisa.Bulder.WebApi
 
         public async Task<MessageEntity> CreateMessage(MessageEntity message)
         {
-            message.PartitionKey = message.PartitionKey;
+            message.PartitionKey = string.Empty;
             message.RowKey = Guid.NewGuid().ToString();
             var operation = TableOperation.Insert(message);
             var result = await _messages.ExecuteAsync(operation);

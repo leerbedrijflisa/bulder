@@ -1,6 +1,14 @@
 ﻿import {HttpClient} from "aurelia-http-client";
 
 export class Create {
+    activate() {
+        this.author = "author";
+
+        //get all channels
+        webapi.get("/channels").then(response => {
+            this.messages = response.content;
+        });
+    }
     submit() {
         var message = {
             author: this.author,
@@ -13,4 +21,5 @@ export class Create {
 
         webapi.post("/messages", message);
     }
+
 }

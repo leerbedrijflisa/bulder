@@ -2,7 +2,7 @@
 
 export class Create {
     activate() {
-
+        //define web api url
         var webapi = new HttpClient().configure(config => {
             config.withBaseUrl("http://localhost:13693");
 
@@ -16,16 +16,18 @@ export class Create {
         });
     }
     submit() {
+        //fill variables 
         var message = {
             author: this.author,
             text: this.text,
             partitionKey: this.selectChannel
         };
+        //web api config
         var webapi = new HttpClient().configure(config => {
             config.withBaseUrl("http://localhost:13693");
             config.withHeader("Content-Type", "application/json");
         });
-        console.log(message);
+
         webapi.post("/messages", message);
 
     }

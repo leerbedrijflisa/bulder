@@ -1,7 +1,7 @@
 ﻿<template>
     <ul>
         <li repeat.for="message of messages">
-            ${message.author} ${message.text}
+          Channel: ${message.partitionKey} Author: ${message.author} Text: ${message.text} 
         </li>
     </ul>
 </template>

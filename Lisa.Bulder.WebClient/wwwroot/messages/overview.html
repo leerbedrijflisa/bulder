@@ -1,7 +1,26 @@
 ﻿<template>
-    <ul>
-        <li repeat.for="message of messages">
-          Channel: ${message.partitionKey} Author: ${message.author} Text: ${message.text} 
-        </li>
-    </ul>
-</template>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+
+        }
+
+        th, td {
+            padding: 5px;
+        }
+    </style>
+
+    <table style="width:100%;">
+        <tr>
+            <th>Channel</th>
+            <th>Author</th>
+            <th>Text</th>
+        </tr>
+        <tr repeat.for="message of messages">
+            <td>${message.partitionKey}</td>
+            <td>${message.author}</td>
+            <td>${message.text}</td>
+        </tr>
+    </table>
+</template> 

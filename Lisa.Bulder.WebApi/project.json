@@ -1,22 +1,23 @@
 {
-
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel"
   },
-
   "dependencies": {
-    "Microsoft.AspNet.Mvc": "6.0.0-beta8",
-    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
-    "WindowsAzure.Storage": "5.0.3-preview",
     "Microsoft.AspNet.Cors": "6.0.0-beta8",
-    "Sendgrid": "6.1.0"
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
+    "Microsoft.AspNet.Mvc": "6.0.0-beta8",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
+    "WindowsAzure.Storage": "5.0.3-preview"
   },
-
+  "exclude": [
+    "wwwroot",
+    "node_modules",
+    "bower_components"
+  ],
   "frameworks": {
-    "dnx451": { }
+    "dnx451": { },
+    "dnxcore50": { }
   },
-
   "publishExclude": [
     "node_modules",
     "bower_components",
@@ -24,13 +25,6 @@
     "**.user",
     "**.vspscc"
   ],
-
-  "exclude": [
-    "wwwroot",
-    "node_modules",
-    "bower_components"
-  ],
-
-  "webroot": "wwwroot",
-  "version": "1.0.0-*"
+  "version": "1.0.0-*",
+  "webroot": "wwwroot"
 }

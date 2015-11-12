@@ -6,6 +6,7 @@ namespace Lisa.Bulder.WebApi
     [Route("messages")]
     public class MessagesController : Controller
     {
+        //get all messages
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -19,6 +20,7 @@ namespace Lisa.Bulder.WebApi
             return new ObjectResult("");
         }
 
+        //create message
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] MessageEntity message)
         {

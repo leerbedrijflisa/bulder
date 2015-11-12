@@ -12,5 +12,6 @@ export class Create extends Services {
             partitionKey: this.selectChannel
         };
         this.webApi.addMessage(message);
+        window.location.replace('#/messages/overview');
     }
 }

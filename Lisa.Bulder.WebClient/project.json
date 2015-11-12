@@ -11,9 +11,10 @@
     "Microsoft.AspNet.StaticFiles": "1.0.0-beta7"
   },
 
-    "commands": {
-        "serve": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
-    },
+  "commands": {
+    "serve": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
+    "web": "Microsoft.AspNet.Server.Kestrel"
+  },
 
     "frameworks": {
         "dnx451": { },

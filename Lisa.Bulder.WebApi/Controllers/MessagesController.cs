@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNet.Mvc;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Lisa.Bulder.WebApi
@@ -11,6 +6,7 @@ namespace Lisa.Bulder.WebApi
     [Route("messages")]
     public class MessagesController : Controller
     {
+        //get all messages
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -24,6 +20,7 @@ namespace Lisa.Bulder.WebApi
             return new ObjectResult("");
         }
 
+        //create message
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] MessageEntity message)
         {

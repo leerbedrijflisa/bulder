@@ -1,22 +1,20 @@
 {
-  "webroot": "wwwroot",
-  "version": "1.0.0-*",
-
-  "dependencies": {
-    "Microsoft.AspNet.Mvc": "6.0.0-beta7",
-    "Microsoft.AspNet.Server.IIS": "1.0.0-beta7",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta7",
-    "Microsoft.AspNet.Cors": "1.0.0-beta7",
-    "WindowsAzure.Storage": "5.0.3-preview"
-  },
 
   "commands": {
-    "serve": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5001"
+    "web": "Microsoft.AspNet.Server.Kestrel"
+  },
+
+  "dependencies": {
+    "Microsoft.AspNet.Mvc": "6.0.0-beta8",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
+    "WindowsAzure.Storage": "5.0.3-preview",
+    "Microsoft.AspNet.Cors": "6.0.0-beta8",
+    "Sendgrid": "6.1.0"
   },
 
   "frameworks": {
-    "dnx451": { },
-    "dnxcore50": { }
+    "dnx451": { }
   },
 
   "publishExclude": [
@@ -26,9 +24,13 @@
     "**.user",
     "**.vspscc"
   ],
+
   "exclude": [
     "wwwroot",
     "node_modules",
     "bower_components"
-  ]
+  ],
+
+  "webroot": "wwwroot",
+  "version": "1.0.0-*"
 }

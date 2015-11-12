@@ -1,15 +1,10 @@
-﻿import {HttpClient} from "aurelia-http-client";
+﻿import {Services} from "lib/services";
 
-export class Create {
+export class Create extends Services {
     submit() {
         var user = {
             name: this.name
         };
-
-        var webapi = new HttpClient().configure(config => {
-            config.withBaseUrl("http://localhost:13693");
-        });
-
-        webapi.post("/users", user);
+        this.webApi.addUser(user);
     }
 }

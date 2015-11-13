@@ -6,19 +6,20 @@ export class RealWebApi {
             config.withBaseUrl("http://localhost:13693");
             config.withHeader("Content-Type", "application/json");
         });
-        this.messages = this.getMessages();
-        this.channels = this.getChannels();
+        this.getMessages();
+        this.getChannels();
     }
 
     getChannels() {
-        return this.httpClient.get("/channels").then(response => {
-            return response.content;
+        this.httpClient.get("/channels").then(response => {
+            this.channels = response.content;
+            console.log("Dit moet als eerste gebeuren");
         });
     }
 
     getMessages() {
-        return this.httpClient.get("/messages").then(response => {
-            return response.content;
+        this.httpClient.get("/messages").then(response => {
+            this.messages = response.content;
         });
     }
 

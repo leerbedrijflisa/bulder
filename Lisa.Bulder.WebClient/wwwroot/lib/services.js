@@ -3,7 +3,7 @@ import {RealWebApi} from "lib/real-web-api";
 
 export class Services {
     static inject() {
-        return [FakeWebApi];
+        return [RealWebApi];
     }
     constructor(webApi) {
         this.webApi = webApi;

@@ -1,20 +1,19 @@
 export class FakeWebApi {
-    constructor() {
-        this.messages = this.getMessages();
-        this.channels = this.getChannels();
-        this.users = [];
-    }
 
     getChannels() {
-        return [
+        return new Promise (function(resolve, reject){
+            resolve({ content :[
             { partitionKey: "Kanaal #1", administrators: "Max Verboom" }
-        ];
+            ]});
+        }
     }
 
     getMessages() {
-        return [
+        return new Promise (function(resolve, reject) {
+            resolve({ content :[
             { author: "Max Verboom", text: "Dit is een test-bericht."}
-        ];
+            ]});
+        }
     }
 
     addMessage(message) {

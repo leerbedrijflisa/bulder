@@ -2,7 +2,8 @@
 
 export class Overview extends Services {
     activate() {
-        this.channels = this.webApi.channels;
-        console.log("Dit moet als laatste gebeuren");
+        this.webApi.getChannels().then(response => {
+            this.channels = response.content;
+        });
     }
 }

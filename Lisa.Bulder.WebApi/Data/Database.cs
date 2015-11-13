@@ -14,9 +14,9 @@ namespace Lisa.Bulder.WebApi
             var account = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
             var client = account.CreateCloudTableClient();
             _messages = client.GetTableReference("messages");
-            _users = client.GetTableReference("users");
             _channels = client.GetTableReference("channels");
             _subscriptions = client.GetTableReference("subscriptions");
+            _users = client.GetTableReference("users");
         }
 
         //Messages

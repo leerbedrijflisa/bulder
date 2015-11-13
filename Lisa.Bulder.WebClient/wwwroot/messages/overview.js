@@ -1,8 +1,9 @@
 ﻿import {Services} from "lib/services";
 
 export class Overview extends Services {
+    //then() returns a promise
     activate() {
-        this.messages = this.webApi.getMessages().then(response => {
+        this.webApi.getMessages().then(response => {
             this.messages = response.content;
         });;
     }

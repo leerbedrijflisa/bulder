@@ -5,6 +5,7 @@ export class Create extends Services {
         this.channels = this.webApi.channels;
         this.author = "author";
     }
+
     submit() {
         var message = {
             author: this.author,

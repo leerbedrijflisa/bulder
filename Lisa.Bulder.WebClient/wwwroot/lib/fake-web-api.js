@@ -1,11 +1,11 @@
 export class FakeWebApi {
 
     getChannels() {
-        return new Promise (function(resolve, reject){
+        return new Promise (function(resolve, reject) {
             resolve({ content :[
             { partitionKey: "Kanaal #1", administrators: "Max Verboom" }
             ]});
-        }
+        });
     }
 
     getMessages() {
@@ -13,7 +13,7 @@ export class FakeWebApi {
             resolve({ content :[
             { author: "Max Verboom", text: "Dit is een test-bericht."}
             ]});
-        }
+        });
     }
 
     addMessage(message) {

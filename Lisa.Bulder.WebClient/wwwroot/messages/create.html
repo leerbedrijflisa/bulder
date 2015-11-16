@@ -2,19 +2,19 @@
     <form>
         <input type="hidden" value.bind="author">
 
-        <div>
+        <div class="createWrapper">
             <label>Select a channel: </label>
-            <select value.bind="selectChannel">
+            <select class="selectChannel" value.bind="selectChannel">
                 <option repeat.for="channel of channels" value="${channel.partitionKey}">${channel.partitionKey}</option>
             </select>
-            
-            <br />            
-            <br />
-            
-            <label>Your message:</label>
-            <textarea required value.bind="text"></textarea>
-        </div> 
 
-        <button click.trigger="submit()">Create</button>    
+            <br><br>
+
+            <label class="selectMessage">Your message:</label>
+            <textarea class="selectMessage" required value.bind="text"></textarea>
+            <br><br>
+            <button click.trigger="submit()">Create</button>
+
+        </div> 
     </form>
 </template> 

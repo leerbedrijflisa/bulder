@@ -1,0 +1,23 @@
+﻿*{
+    padding: 0px;
+    margin: 0px;
+}
+
+
+/*Create page*/
+
+div.createWrapper{
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+select..selectChannel{
+    margin-left: 1%;
+}
+
+textarea.selectMessage {
+    margin-left: 1%;
+    width: 20%;
+    height: 15%;
+    resize: none;
+}

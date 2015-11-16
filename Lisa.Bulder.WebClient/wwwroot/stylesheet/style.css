@@ -1,13 +1,12 @@
-﻿*{
+﻿/*Global*/
+*{
     padding: 0px;
     margin: 0px;
 }
 
-
 /*Create page*/
 
 div.createWrapper{
-    margin-top: 2%;
     margin-left: 2%;
 }
 
@@ -20,4 +19,23 @@ textarea.selectMessage {
     width: 20%;
     height: 15%;
     resize: none;
+}
+
+/*header*/
+li.headerLink{
+    display: inline;
+    margin-left: 1%;
+}
+
+a.headerLink{
+    color: black;
+    text-decoration: none;
+}
+
+a.headerLink:hover{
+    text-decoration: underline;
+}
+
+div.navBar{
+    margin-bottom: 5%;
 }

@@ -5,8 +5,6 @@
         <div>
             <label>Select a channel: </label>
             <select value.bind="selectChannel">
-                <option>Select a channel</option>
-                <option disabled>---------------------</option>
                 <option repeat.for="channel of channels" value="${channel.partitionKey}">${channel.partitionKey}</option>
             </select>
             
@@ -14,7 +12,7 @@
             <br />
             
             <label>Your message:</label>
-            <textarea value.bind="text"></textarea>
+            <textarea required value.bind="text"></textarea>
         </div> 
 
         <button click.trigger="submit()">Create</button>    

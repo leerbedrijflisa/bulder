@@ -28,6 +28,8 @@ export class Create {
             config.withHeader("Content-Type", "application/json");
         });
 
+        RuleFor(x => x.Message).NotEmpty().NotNull().WithMessage("Required field");
+        
         webapi.post("/messages", message);
         window.location.href = "#/messages/overview/#";
     }

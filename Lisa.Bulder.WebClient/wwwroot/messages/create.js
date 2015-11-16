@@ -29,7 +29,7 @@ export class Create {
         });
 
         webapi.post("/messages", message);
-        window.location.replace("#/messages/overview");
+        window.location.href = "#/messages/overview/#";
     }
 
 }

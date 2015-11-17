@@ -8,10 +8,16 @@ export class RealWebApi {
         });
     }
 
+    //Channels
     getChannels() {
         return this.httpClient.get("/channels");
     }
+    
+    addChannel(channel) {
+        return this.httpClient.post("/channels", channel);
+    }
 
+    //Messages
     getMessages() {
         return this.httpClient.get("/messages");
     }
@@ -20,11 +26,8 @@ export class RealWebApi {
         return this.httpClient.post("/messages", message);
     }
 
+    //Users
     addUser(user) {
         return this.httpClient.post("/users", user);
-    }
-
-    addChannel(channel) {
-        return this.httpClient.post("/channels", channel);
     }
 }

@@ -2,7 +2,9 @@
 
 export class Create extends Services {
     activate() {
-        this.channels = this.webApi.channels;
+        this.webApi.getChannels().then(response => {
+            this.channels = response.content;
+        });
         this.author = "author";
     }
 

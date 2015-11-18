@@ -8,6 +8,6 @@ export class Create extends Services {
             authors: this.Administrators
         };
         this.webApi.addChannel(channel);
-        window.location.replace('#/channels/overview/#');
+        window.location.href='#/channels/overview/#';
     }
 }

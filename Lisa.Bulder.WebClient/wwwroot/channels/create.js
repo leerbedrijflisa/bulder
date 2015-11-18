@@ -1,16 +1,13 @@
-﻿import {HttpClient} from "aurelia-http-client";
+﻿import {Services} from "lib/services";
 
-export class Create {
+export class Create extends Services {
     submit() {
         var channel = {
-            PartitionKey: this.Name,
-            Administrators: this.Administrators
+            partitionKey: this.Name,
+            administrators: this.Administrators,
+            authors: this.Administrators
         };
-
-        var webapi = new HttpClient().configure(config => {
-            config.withBaseUrl("http://localhost:13693");
-        });
-
-        webapi.post("/channels", channel);
+        this.webApi.addChannel(channel);
+        window.location.href='#/channels/overview/#';
     }
 }

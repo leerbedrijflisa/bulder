@@ -1,13 +1,8 @@
-﻿import {HttpClient} from "aurelia-http-client";
+﻿import {Services} from "lib/services";
 
-export class Overview {
-
+export class Overview extends Services {
     activate() {
-        var webapi = new HttpClient().configure(config => {
-            config.withBaseUrl("http://localhost:13693");
-        });
-
-        webapi.get("/channels").then(response => {
+        this.webApi.getChannels().then(response => {
             this.channels = response.content;
         });
     }

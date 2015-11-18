@@ -23,6 +23,7 @@ namespace Lisa.Bulder.WebApi
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseIISPlatformHandler();
             app.UseCors("allowAll");
             app.UseMvc();
         }

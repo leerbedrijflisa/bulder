@@ -1,14 +1,10 @@
-﻿import {HttpClient} from "aurelia-http-client";
+﻿import {Services} from "lib/services";
 
-export class Overview {
-
+export class Overview extends Services {
+    //then() returns a promise
     activate() {
-        var webapi = new HttpClient().configure(config => {
-            config.withBaseUrl("http://localhost:13693");
-        });
-
-        webapi.get("/messages").then(response => {
+        this.webApi.getMessages().then(response => {
             this.messages = response.content;
-        });
+        });;
     }
 }

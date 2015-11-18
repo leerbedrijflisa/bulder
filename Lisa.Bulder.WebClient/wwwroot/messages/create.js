@@ -1,27 +1,20 @@
-﻿import {HttpClient} from "aurelia-http-client";
+﻿import {Services} from "lib/services";
 
-export class Create {
+export class Create extends Services {
     activate() {
-        //define web api url
-        var webapi = new HttpClient().configure(config => {
-            config.withBaseUrl("http://localhost:13693");
-
-        });
-
-        this.author = "author";
-
-        //get all channels
-        webapi.get("/channels").then(response => {
+        this.webApi.getChannels().then(response => {
             this.channels = response.content;
         });
+        this.author = "author";
     }
+
     submit() {
-        //fill variables 
         var message = {
             author: this.author,
             text: this.text,
             partitionKey: this.selectChannel
         };
+
         //web api config
         var webapi = new HttpClient().configure(config => {
             config.withBaseUrl("http://localhost:13693");
@@ -33,5 +26,4 @@ export class Create {
         webapi.post("/messages", message);
         window.location.href = "#/messages/overview/#";
     }
-
 }

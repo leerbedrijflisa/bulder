@@ -90,7 +90,7 @@ namespace Lisa.Bulder.WebApi
             await _users.CreateIfNotExistsAsync();
 
             user.PartitionKey = user.PartitionKey;
-            user.RowKey = string.Empty;
+            user.RowKey = Guid.NewGuid().ToString();
             var operation = TableOperation.Insert(user);
             var result = await _users.ExecuteAsync(operation);
             return (UserEntity)result.Result;

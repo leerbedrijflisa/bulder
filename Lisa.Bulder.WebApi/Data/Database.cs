@@ -13,6 +13,7 @@ namespace Lisa.Bulder.WebApi
         {
             var account = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
             var client = account.CreateCloudTableClient();
+
             _messages = client.GetTableReference("messages");
             _channels = client.GetTableReference("channels");
             _subscriptions = client.GetTableReference("subscriptions");
@@ -29,6 +30,8 @@ namespace Lisa.Bulder.WebApi
 
         public async Task<MessageEntity> CreateMessage(MessageEntity message)
         {
+            await _messages.CreateIfNotExistsAsync();
+
             message.PartitionKey = message.PartitionKey;
             message.RowKey = Guid.NewGuid().ToString();
             var operation = TableOperation.Insert(message);
@@ -46,8 +49,10 @@ namespace Lisa.Bulder.WebApi
 
         public async Task<ChannelEntity> CreateChannel(ChannelEntity channel)
         {
+            await _channels.CreateIfNotExistsAsync();
+
             channel.PartitionKey = channel.PartitionKey;
-            channel.RowKey = string.Empty;
+            channel.RowKey = Guid.NewGuid().ToString();
             var operation = TableOperation.Insert(channel);
             var result = await _channels.ExecuteAsync(operation);
             return (ChannelEntity)result.Result;
@@ -63,6 +68,8 @@ namespace Lisa.Bulder.WebApi
 
         public async Task<SubscriptionEntity> CreateSubscription(SubscriptionEntity subscription)
         {
+            await _subscriptions.CreateIfNotExistsAsync();
+
             subscription.PartitionKey = subscription.PartitionKey;
             subscription.RowKey = Guid.NewGuid().ToString();
             var operation = TableOperation.Insert(subscription);
@@ -80,6 +87,8 @@ namespace Lisa.Bulder.WebApi
 
         public async Task<UserEntity> CreateUser(UserEntity user)
         {
+            await _users.CreateIfNotExistsAsync();
+
             user.PartitionKey = user.PartitionKey;
             user.RowKey = string.Empty;
             var operation = TableOperation.Insert(user);

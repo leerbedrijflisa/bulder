@@ -7,6 +7,7 @@ export class Create extends Services {
             administrators: this.Administrators,
             authors: this.Administrators
         };
+
         this.webApi.addChannel(channel);
         window.location.href='#/channels/overview/#';
     }
